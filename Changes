@@ -1,0 +1,8 @@
+Revision history for Geo-Coder-GoogleMaps
+
+0.1    2007-05-28
+        First release. Support JSON, XML/KML output and translation from/to these formats.
+        This version is still messy since we use it in our internal development as a test module.
+        Particularly the toKML() method is the worst with its static code.
+        All those things will be corrected in the next release (in few days).
+
