@@ -17,11 +17,11 @@ Geo::Coder::GoogleMaps - Google Maps Geocoding API
 
 =head1 VERSION
 
-Version 0.1
+Version 0.12
 
 =cut
 
-our $VERSION = '0.1';
+our $VERSION = '0.12';
 
 =head1 SYNOPSIS
 
@@ -46,6 +46,17 @@ The direct output of the geocode() method is now a Geo::Coder::GoogleMaps::Locat
 
 =head2 new
 
+The object constructor it takes the following parameters :
+
+	apikey : your Google API key (only parameter mandatory).
+	ua : a LWP::UserAgent object. If not provided a new user agent is instanciates.
+	host : the google map service url (default is: maps.google.com)
+	output : the output method between xml, kml and json (csv support plan for futur release). Default is json.
+
+Example:
+
+	my $gmap = Geo::Coder::GoogleMaps->new( apikey => 'abcdef', host => 'maps.google.fr', output => 'xml');
+
 =cut
 
 
@@ -63,6 +74,17 @@ sub new {
 }
 
 =head2 geocode
+
+Get a location from the Google Maps API. It return a list (in list context) of Geo::Code::GoogleMaps::Location objects or the first one in a scalar context.
+
+	my $location = $gmap->geocode(location => '88 rue du chateau, 92600, Asnières sur seine, France');
+	print $location->Serialyze ;
+
+Please note that for the moment the geocode methode rely on JSON::Syck to parse the Google's output and ask for result in JSON format.
+
+In futur release the 'output' from the constructor will mainly be used to define the way you want this module get the data. 
+
+The dependency to JSON::Syck and XML::LibXML will be removed to be optionnal and dynamically load.
 
 =cut
 
@@ -122,6 +144,8 @@ sub geocode {
 __END__
 
 =head1 AUTHOR
+
+L<Geo::Coder::Google> (the original module) is from Tatsuhiko Miyagawa.
 
 Arnaud DUPUIS, C<< <a.dupuis at nabladev.com> >>
 

@@ -1,5 +1,11 @@
 Revision history for Geo-Coder-GoogleMaps
 
+0.12  2007-05-29
+        Correct a major issue : Mr Tatsuhiko Miyagawa wasn't in the module credit ! 
+        My deep apologies to Mr Miyagawa.
+        Also fix the lacking documentation. 
+        No code modification.
+
 0.1    2007-05-28
         First release. Support JSON, XML/KML output and translation from/to these formats.
         This version is still messy since we use it in our internal development as a test module.

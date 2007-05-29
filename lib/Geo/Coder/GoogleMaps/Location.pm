@@ -7,13 +7,15 @@ use Carp;
 use JSON::Syck;
 use XML::LibXML;
 
+our $VERSION='0.12';
+
 =head1 NAME
 
 Geo::Coder::GoogleMaps::Location - Geo::Coder::GoogleMaps' Location object
 
 =head1 VERSION
 
-Version 0.1
+Version 0.12 (follow Geo::Coder::Google version number)
 
 =head1 SYNOPSIS
 
