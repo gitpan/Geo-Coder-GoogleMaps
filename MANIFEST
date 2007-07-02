@@ -7,6 +7,11 @@ MANIFEST
 META.yml			# Will be created by "make dist"
 README
 t/00-load.t
+t/01-load-Location.t
+t/02-empty-location.t
+t/03-filled-location.t
+t/04-to-kml.t
+t/05-geo-coder-googlemaps.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t

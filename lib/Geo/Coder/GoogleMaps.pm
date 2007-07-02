@@ -21,7 +21,7 @@ Version 0.12
 
 =cut
 
-our $VERSION = '0.12';
+our $VERSION = '0.2';
 
 =head1 SYNOPSIS
 
@@ -121,23 +121,16 @@ sub geocode {
 	my $charset = ($ctype[1] =~ /charset=([\w\-]+)$/)[0] || "utf-8";
 	
 	my $content = Encode::decode($charset, $res->content);
-# 	if ($self->{output} eq 'json'){
-		local $JSON::Syck::ImplicitUnicode = 1;
-		my $data = JSON::Syck::Load($content);
-		
-		my @placemark=();
-		foreach my $Placemark (@{$data->{Placemark}}){
-			my $loc = Geo::Coder::GoogleMaps::Location->new(output => $self->{output});
-			$loc->_setData($Placemark);
-			push @placemark, $loc;
-		}
-		wantarray ? @placemark : $placemark[0];
-# 	}
-# 	elsif ($self->{output} eq 'xml' || $self->{output} eq 'kml'){
-# 		my $parser = new XML::LibXML;
-# 		my $document = $parser->parse_string( $content );
-# # 		my ($kml) = $document->getChildren
-# 	}
+	local $JSON::Syck::ImplicitUnicode = 1;
+	my $data = JSON::Syck::Load($content);
+	
+	my @placemark=();
+	foreach my $Placemark (@{$data->{Placemark}}){
+		my $loc = Geo::Coder::GoogleMaps::Location->new(output => $self->{output});
+		$loc->_setData($Placemark);
+		push @placemark, $loc;
+	}
+	wantarray ? @placemark : $placemark[0];
 }
 
 1;
@@ -167,7 +160,9 @@ You can also look for information at:
 
 =over 4
 
-=item * Nabla Development: http://www.nabladev.com and http://opensource.nabladev.com
+=item * Nabla Development: 
+
+L<http://www.nabladev.com> and L<http://opensource.nabladev.com>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
