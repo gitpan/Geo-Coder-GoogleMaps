@@ -7,7 +7,9 @@ use Carp;
 use JSON::Syck;
 use XML::LibXML;
 
-our $VERSION='0.2';
+our $VERSION='0.3';
+
+=encoding utf-8
 
 =head1 NAME
 
@@ -15,11 +17,13 @@ Geo::Coder::GoogleMaps::Location - Geo::Coder::GoogleMaps' Location object
 
 =head1 VERSION
 
-Version 0.2 (follow Geo::Coder::Google version number)
+Version 0.3 (follow Geo::Coder::Google version number)
 
 =head1 SYNOPSIS
 
-Here we have the object returned by Geo::Coder::GoogleMaps->geocode()
+Here we have the object returned by Geo::Coder::GoogleMaps::Response->placemarks().
+
+This object can generate and manipulate the geocoding subset of KML 2.2 object (main change for the geocoding feature is the introduction of ExtendedData).
 
 =head1 FUNCTIONS
 
@@ -32,6 +36,7 @@ The constructor can take the following arguments :
 	- LocalityName : yes! A locality name !
 	- ThoroughfareName: same thing => a string
 	- AdministrativeAreaName
+	- CountryName
 	- CountryNameCode
 	- address
 	- longitude
@@ -60,7 +65,8 @@ sub new {
 					},
 					'AdministrativeAreaName' => delete $param{'AdministrativeAreaName'} || ''
 				},
-				'CountryNameCode' => delete $param{'CountryNameCode'} || ''
+				'CountryNameCode' => delete $param{'CountryNameCode'} || '',
+				'CountryName' => delete $param{'CountryName'} || ''
 			}
 		},
 		'address' => delete $param{'address'} || '',
@@ -144,6 +150,20 @@ Access the AdministrativeAreaName parameter.
 sub AdministrativeAreaName {
 	my ($self,$data) = @_ ;
 	return $data ? $self->{data}->{'AddressDetails'}->{'Country'}->{'AdministrativeArea'}->{'AdministrativeAreaName'}=$data : $self->{data}->{'AddressDetails'}->{'Country'}->{'AdministrativeArea'}->{'AdministrativeAreaName'} ;
+}
+
+=head2 CountryName
+
+Access the CountryName parameter.
+
+	print $location->CountryName(); # retrieve the value
+	$location->CountryName("France"); # set the value
+
+=cut
+
+sub CountryName {
+	my ($self,$data) = @_ ;
+	return $data ? $self->{data}->{'AddressDetails'}->{'Country'}->{'CountryName'}=$data : $self->{data}->{'AddressDetails'}->{'Country'}->{'CountryName'} ;
 }
 
 =head2 CountryNameCode
@@ -251,13 +271,69 @@ sub altitude {
 
 This method is not really an accessor, it's only a getter which return longitude, latitude and altitude as a string.
 
-	print "Placemark's coordinates",$location->coordinates,"\n";
+	print "Placemark's coordinates: ",$location->coordinates,"\n";
 
 =cut
 
 sub coordinates {
 	my $self = shift;
 	return $self->longitude().','.$self->latitude().','.$self->altitude ;
+}
+
+=head2 LLB_north
+
+Access the north parameter from the LatLonBox.
+
+	print $location->LLB_north(); # retrieve the value
+	$location->LLB_north(48.9157461); # set the value
+
+=cut
+
+sub LLB_north {
+	my ($self,$data) = @_ ;
+	return $data ? $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'north'}=$data : $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'north'} ;
+}
+
+=head2 LLB_south
+
+Access the south parameter from the LatLonBox.
+
+	print $location->LLB_south(); # retrieve the value
+	$location->LLB_south(48.9157461); # set the value
+
+=cut
+
+sub LLB_south {
+	my ($self,$data) = @_ ;
+	return $data ? $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'south'}=$data : $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'south'} ;
+}
+
+=head2 LLB_east
+
+Access the east parameter from the LatLonBox.
+
+	print $location->LLB_east(); # retrieve the value
+	$location->LLB_east(48.9157461); # set the value
+
+=cut
+
+sub LLB_east {
+	my ($self,$data) = @_ ;
+	return $data ? $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'east'}=$data : $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'east'} ;
+}
+
+=head2 LLB_west
+
+Access the west parameter from the LatLonBox.
+
+	print $location->LLB_west(); # retrieve the value
+	$location->LLB_west(48.9157461); # set the value
+
+=cut
+
+sub LLB_west {
+	my ($self,$data) = @_ ;
+	return $data ? $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'west'}=$data : $self->{data}->{'ExtendedData'}->{'LatLonBox'}->{'west'} ;
 }
 
 =head2 toJSON
@@ -283,70 +359,6 @@ Please note that this function can take an optionnal argument (0 or 1) and if it
 
 =cut
 
-# sub toKML {
-# 	my $self = shift;
-# 	my $as_string = shift;
-# 	my $document = XML::LibXML::Document->createDocument( "1.0", "UTF-8" );
-# 	$document->setStandalone(1);
-# 	my $kml = $document->createElement('kml');
-# 	$kml->setNamespace("http://earth.google.com/kml/2.1", '',0);
-# 	$document->setDocumentElement($kml);
-# 	my $placemark = $document->createElement('Placemark');
-# 	$kml->appendChild($placemark);
-# 	
-# 	my $address = $document->createElement('address');
-# 	$address->appendText($self->address);
-# 	$placemark->appendChild($address);
-# 	
-# 	my $AddressDetails = $document->createElement('AddressDetails');
-# 	$placemark->appendChild($AddressDetails);
-# 	
-# 	my $Country = $document->createElement('Country');
-# 	$AddressDetails->appendChild($Country);
-# 	
-# 	my $CountryNameCode = $document->createElement('CountryNameCode');
-# 	$CountryNameCode->appendText($self->CountryNameCode);
-# 	$Country->appendChild($CountryNameCode);
-# 	
-# 	my $AdministrativeArea = $document->createElement('AdministrativeArea');
-# 	$Country->appendChild($AdministrativeArea);
-# 	
-# 	my $AdministrativeAreaName = $document->createElement('AdministrativeAreaName');
-# 	$AdministrativeAreaName->appendText($self->AdministrativeAreaName);
-# 	$AdministrativeArea->appendChild($AdministrativeAreaName);
-# 	
-# 	my $SubAdministrativeArea = $document->createElement('SubAdministrativeArea');
-# 	$AdministrativeArea->appendChild($SubAdministrativeArea);
-# 	my $SubAdministrativeAreaName = $document->createElement('SubAdministrativeAreaName');
-# 	$SubAdministrativeAreaName->appendText($self->SubAdministrativeAreaName);
-# 	$SubAdministrativeArea->appendChild($SubAdministrativeAreaName);
-# 	my $Locality = $document->createElement('Locality');
-# 	$SubAdministrativeArea->appendChild($Locality);
-# 	my $LocalityName = $document->createElement('LocalityName');
-# 	$LocalityName->appendText($self->LocalityName);
-# 	$Locality->appendChild($LocalityName);
-# 	my $PostalCode = $document->createElement('PostalCode');
-# 	$Locality->appendChild($PostalCode);
-# 	my $PostalCodeNumber = $document->createElement('PostalCodeNumber');
-# 	$PostalCodeNumber->appendText($self->PostalCodeNumber);
-# 	$PostalCode->appendChild($PostalCodeNumber);
-# 	my $Thoroughfare = $document->createElement('Thoroughfare');
-# 	$Locality->appendChild($Thoroughfare);
-# 	my $ThoroughfareName = $document->createElement('ThoroughfareName');
-# 	$ThoroughfareName->appendText($self->ThoroughfareName);
-# 	$Thoroughfare->appendChild($ThoroughfareName);
-# 	my $Point = $document->createElement('Point');
-# 	$placemark->appendChild($Point);
-# 	my $coordinates = $document->createElement('coordinates');
-# 	$Point->appendChild($coordinates);
-# 	$coordinates->appendText($self->longitude().','.$self->latitude().','.$self->altitude);
-# 	
-# 	
-# 	$document->setEncoding("UTF-8");
-# 	return $document->toString(1) if($as_string);
-# 	return $document;
-# }
-
 sub toKML {
 	sub _toKMLinternal {
 		my $self = shift;
@@ -354,7 +366,11 @@ sub toKML {
 		my $xml_element = shift;
 		my $root = shift;
 		return unless($root);
+		return unless( ref($root) eq "HASH" );
+# 		print "[debug] _toKMLinternal() \$root=$root\n";
 		foreach my $key (keys(%{$root})){
+			next if($key eq "Accuracy");
+# 			print "[debug] _toKMLinternal() creating new element: $key\n";
 			my $new_element = $document->createElement($key);
 			if( $self->can($key) ){
 				if(defined($self->$key)){
@@ -365,9 +381,16 @@ sub toKML {
 			else{
 				if($key eq 'AddressDetails'){
 					$new_element->setNamespace("urn:oasis:names:tc:ciq:xsdschema:xAL:2.0", '',0);
+					$new_element->setAttribute('Accuracy',$self->Accuracy);
+				}
+				elsif( $key eq 'LatLonBox' ){
+					$new_element->setAttribute('north',$root->{$key}->{north});
+					$new_element->setAttribute('south',$root->{$key}->{south});
+					$new_element->setAttribute('east',$root->{$key}->{east});
+					$new_element->setAttribute('west',$root->{$key}->{west});
 				}
 				$xml_element->appendChild($new_element);
-				_toKMLinternal($self,$document,$new_element,$root->{$key});
+				_toKMLinternal($self,$document,$new_element,$root->{$key}) unless($key eq 'LatLonBox');
 			}
 		}
 	}
@@ -377,14 +400,15 @@ sub toKML {
 	my $document = XML::LibXML::Document->createDocument( "1.0", "UTF-8" );
 	$document->setStandalone(1);
 	my $kml = $document->createElement('kml');
-	$kml->setNamespace("http://earth.google.com/kml/2.1", '',0);
+# 	$kml->setNamespace("http://earth.google.com/kml/2.1", '',0);
+	$kml->setNamespace("http://www.opengis.net/kml/2.2", '',0);
 	$document->setDocumentElement($kml);
 	my $placemark = $document->createElement('Placemark');
 	$placemark->setAttribute('id',$self->id);
 	$kml->appendChild($placemark);
 	my $data = {%{$self->{data}}};
 	delete($data->{id});
-	delete($data->{AddressDetails}->{Accuracy});
+# 	delete($data->{AddressDetails}->{Accuracy});
 	_toKMLinternal($self,$document,$placemark,$data);
 	$document->setEncoding("UTF-8");
 	return $document->toString(1) if($as_string);
@@ -430,7 +454,7 @@ sub _setData {
 
 =head1 AUTHOR
 
-Arnaud DUPUIS, C<< <a.dupuis at nabladev.com> >>
+Arnaud Dupuis, C<< <a.dupuis at infinityperl.org> >>
 
 =head1 BUGS
 
@@ -450,9 +474,17 @@ You can also look for information at:
 
 =over 4
 
-=item * Nabla Development: 
+=item * Infinity Perl: 
 
-L<http://www.nabladev.com> and L<http://opensource.nabladev.com>
+L<http://www.infinityperl.org>
+
+=item * Google Code repository
+
+L<https://code.google.com/p/geo-coder-googlemaps/>
+
+=item * Google Maps API documentation
+
+L<http://code.google.com/apis/maps/documentation/geocoding/>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
