@@ -25,11 +25,11 @@ Geo::Coder::GoogleMaps::Response - Response object for the Geo::Coder::GoogleMap
 
 =head1 VERSION
 
-Version 0.3
+Version 0.3.1
 
 =cut
 
-our $VERSION = '0.3';
+our $VERSION = '0.3.1';
 
 =head1 SYNOPSIS
 

@@ -1,5 +1,15 @@
 Revision history for Geo-Coder-GoogleMaps
 
+0.3.1  2009-12-11
+	Fix the followings bugs:
+		* 49483 : Encoding problems with non-latin1 data and json transport
+		* 49480 : Non-existing URLs (nabladev.com)
+		* 32221 : feature request (check Google's error status code)
+		* 49482 : Specify encoding in Pod
+	API change to be able to fullfill the feature request 32221
+	Fix test that failed in 0.3
+	Update Changes file
+
 0.2  2007-07-02
         Code clean-up
         Rewrite toKML() function to make it more flexible.

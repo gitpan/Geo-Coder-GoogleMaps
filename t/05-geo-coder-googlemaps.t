@@ -9,7 +9,7 @@ BEGIN {
 diag("\nWARNING:\nThe following tests requires two thing :\n1) to be connected to the internet\n2) to have a valid Google API key exported as GAPI_KEY.\nIf you don't have those the test will be skip.\n");
 
 SKIP: {
-	skip( "Real tests are skipped because you haven't defined the GAPI_KEY environnement variable.", 8 ) if(!defined($ENV{GAPI_KEY}));
+	skip( "Real tests are skipped because you haven't defined the GAPI_KEY environnement variable.", 11 ) if(!defined($ENV{GAPI_KEY}));
 	my $gmap = Geo::Coder::GoogleMaps->new( apikey => $ENV{GAPI_KEY} , output => 'xml');
 	ok(defined($gmap));
 	ok( $gmap->isa('Geo::Coder::GoogleMaps') );
