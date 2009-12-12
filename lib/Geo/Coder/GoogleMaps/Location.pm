@@ -7,7 +7,7 @@ use Carp;
 use JSON::Syck;
 use XML::LibXML;
 
-our $VERSION='0.3.1';
+our $VERSION='0.3.2';
 
 =encoding utf-8
 
@@ -17,11 +17,11 @@ Geo::Coder::GoogleMaps::Location - Geo::Coder::GoogleMaps' Location object
 
 =head1 VERSION
 
-Version 0.3.1 (follow Geo::Coder::Google version number)
+Version 0.3.2 (follow L<Geo::Coder::Google> version number)
 
 =head1 SYNOPSIS
 
-Here we have the object returned by Geo::Coder::GoogleMaps::Response->placemarks().
+Here we have the object returned by L<Geo::Coder::GoogleMaps::Response>->placemarks().
 
 This object can generate and manipulate the geocoding subset of KML 2.2 object (main change for the geocoding feature is the introduction of ExtendedData).
 
@@ -41,7 +41,7 @@ The constructor can take the following arguments :
 	- address
 	- longitude
 	- latitude
-	- altitude (warning in Google Map API altitude must be 0)
+	- altitude (warning in Google Maps API altitude must be 0)
 
 =cut
 
@@ -468,7 +468,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Geo::Coder::GoogleMaps
+    perldoc Geo::Coder::GoogleMaps::Location
 
 You can also look for information at:
 

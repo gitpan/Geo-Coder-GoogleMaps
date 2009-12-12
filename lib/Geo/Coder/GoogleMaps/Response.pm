@@ -21,15 +21,15 @@ use constant {
 
 =head1 NAME
 
-Geo::Coder::GoogleMaps::Response - Response object for the Geo::Coder::GoogleMaps module.
+Geo::Coder::GoogleMaps::Response - Response object for the L<Geo::Coder::GoogleMaps> module.
 
 =head1 VERSION
 
-Version 0.3.1
+Version 0.3.2
 
 =cut
 
-our $VERSION = '0.3.1';
+our $VERSION = '0.3.2';
 
 =head1 SYNOPSIS
 
@@ -117,7 +117,7 @@ sub status {
 
 =head2 add_placemark
 
-Adds the placemark (a Geo::Coder::GoogleMaps::Location object) given in parameter to the list of placemarks.
+Adds the placemark (a L<Geo::Coder::GoogleMaps::Location> object) given in parameter to the list of placemarks.
 
 This methods croak on errors (like if you did not give a proper object in argument).
 
@@ -137,6 +137,8 @@ sub add_placemark {
 =head2 placemarks
 
 Return the complete list of placemarks, or an arrayref depending on the context.
+
+In any case the array contains a list of L<Geo::Coder::GoogleMaps::Location> objects.
 
 =cut
 
@@ -171,8 +173,6 @@ sub clean_status {
 __END__
 
 =head1 AUTHOR
-
-L<Geo::Coder::Google> (the original module) is from Tatsuhiko Miyagawa.
 
 Arnaud Dupuis, C<< <a.dupuis at infinityperl.org> >>
 
