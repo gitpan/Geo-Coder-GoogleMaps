@@ -25,11 +25,11 @@ Geo::Coder::GoogleMaps::Response - Response object for the L<Geo::Coder::GoogleM
 
 =head1 VERSION
 
-Version 0.3.2
+Version 0.4 (follow L<Geo::Coder::GoogleMaps> version number)
 
 =cut
 
-our $VERSION = '0.3.2';
+our $VERSION = '0.4';
 
 =head1 SYNOPSIS
 
@@ -225,6 +225,8 @@ L<http://search.cpan.org/dist/Geo-Coder-GoogleMaps>
 =back
 
 =head1 ACKNOWLEDGEMENTS
+
+Slaven Rezic (L<SREZIC>) for all the patches and his useful reports on RT.
 
 =head1 COPYRIGHT & LICENSE
 

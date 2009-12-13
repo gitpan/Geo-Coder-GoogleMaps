@@ -1,5 +1,10 @@
 Revision history for Geo-Coder-GoogleMaps
 
+0.4    2009-12-13
+	Integrate Slaven Rezic (SREZIC@cpan.org) patch which fix the typo in the Serialize() method name (compatibility is still assured) (https://rt.cpan.org/Ticket/Display.html?id=52711)
+	Fix the version number bug (https://rt.cpan.org/Ticket/Display.html?id=52709)
+	Fix Links problem in the POD all thanks to Slaven again ! (https://rt.cpan.org/Ticket/Display.html?id=52712)
+
 0.3.2  2009-12-12
 	Finally fix the documentation !
 

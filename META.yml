@@ -1,6 +1,6 @@
 ---
 name: Geo-Coder-GoogleMaps
-version: v0.3.2
+version: 0.4
 author:
   - 'Arnaud DUPUIS <a.dupuis@nabladev.com>'
 abstract: Google Maps Geocoding API
@@ -19,13 +19,13 @@ configure_requires:
 provides:
   Geo::Coder::GoogleMaps:
     file: lib/Geo/Coder/GoogleMaps.pm
-    version: v0.3.2
+    version: 0.4
   Geo::Coder::GoogleMaps::Location:
     file: lib/Geo/Coder/GoogleMaps/Location.pm
-    version: v0.3.2
+    version: 0.4
   Geo::Coder::GoogleMaps::Response:
     file: lib/Geo/Coder/GoogleMaps/Response.pm
-    version: v0.3.2
+    version: 0.4
 generated_by: Module::Build version 0.35
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

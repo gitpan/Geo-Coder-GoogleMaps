@@ -20,11 +20,11 @@ Geo::Coder::GoogleMaps - Google Maps Geocoding API
 
 =head1 VERSION
 
-Version 0.3.2
+Version 0.4
 
 =cut
 
-our $VERSION = '0.3.2';
+our $VERSION = '0.4';
 
 =head1 SYNOPSIS
 
@@ -34,11 +34,11 @@ WARNING WARNING WARNING
 
 WARNING WARNING WARNING
 
-This module provide Google Maps API. Please note that this module use Tatsuhiko Miyagawa's work on Geo::Coder::Google as base (L<http://search.cpan.org/~miyagawa/>).
+This module provide Google Maps API. Please note that this module use Tatsuhiko Miyagawa's work on L<Geo::Coder::Google> as base (L<http://search.cpan.org/~miyagawa/>).
 
 In fact it's a fork of Mr Miyagawa's module. Geo::Coder::GoogleMaps use the default JSON data type as default output but also support XML/KML.
 
-The direct output of the geocode() method is now a Geo::Coder::GoogleMaps::Location object which can be exported to any of the supported format.
+The direct output of the geocode() method is no longer a L<Geo::Coder::GoogleMaps::Location> but a Geo::Coder::GoogleMaps::Response. This one contains a list of L<Geo::Coder::GoogleMaps::Location> objects which can be, individually, exported to any of the supported format.
 
 
 	use Geo::Coder::GoogleMaps;
@@ -90,10 +90,10 @@ WARNING WARNING WARNING
 
 WARNING WARNING WARNING
 
-Get a location from the Google Maps API. It return a L<Geo::Code::GoogleMaps::Response> object.
+Get a location from the Google Maps API. It return a L<Geo::Coder::GoogleMaps::Response> object.
 
 	my $response = $gmap->geocode(location => '88 rue du chateau, 92600, Asnières sur seine, France');
-	print $response->placemarks()->[0]->Serialyze(1) if( $response->is_success() ) ;
+	print $response->placemarks()->[0]->Serialize(1) if( $response->is_success() ) ;
 
 Please note that for the moment the geocode methode rely on JSON::Syck to parse the Google's output and ask for result in JSON format.
 
@@ -213,6 +213,8 @@ L<http://search.cpan.org/dist/Geo-Coder-GoogleMaps>
 =back
 
 =head1 ACKNOWLEDGEMENTS
+
+Slaven Rezic (L<SREZIC>) for all the patches and his useful reports on RT.
 
 =head1 COPYRIGHT & LICENSE
 

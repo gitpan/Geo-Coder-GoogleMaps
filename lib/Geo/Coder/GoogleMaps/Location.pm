@@ -7,7 +7,7 @@ use Carp;
 use JSON::Syck;
 use XML::LibXML;
 
-our $VERSION='0.3.2';
+our $VERSION='0.4';
 
 =encoding utf-8
 
@@ -17,7 +17,7 @@ Geo::Coder::GoogleMaps::Location - Geo::Coder::GoogleMaps' Location object
 
 =head1 VERSION
 
-Version 0.3.2 (follow L<Geo::Coder::Google> version number)
+Version 0.4 (follow L<Geo::Coder::GoogleMaps> version number)
 
 =head1 SYNOPSIS
 
@@ -425,17 +425,17 @@ sub toXML {
 	return shift->toKML(@_);
 }
 
-=head2 Serialyze
+=head2 Serialize
 
 This method simply call the good to(JSON|XML|KML) depending of the output format you selected.
 
 You can eventually pass extra arguments, they will be relayed.
 
-	$location->Serialyze(1); # if the output is set to XML or KML you will have a stringified XML as output
+	$location->Serialize(1); # if the output is set to XML or KML you will have a stringified XML as output
 
 =cut
 
-sub Serialyze {
+sub Serialize {
 	my $self = shift;
 	if($self->{output}){
 		return $self->toJSON if($self->{output} eq 'json');
@@ -445,6 +445,18 @@ sub Serialyze {
 	else {
 		return $self->toJSON ;
 	}
+}
+
+=head2 Serialyze (OBSOLETE)
+
+This method is just an alias to Serialize(), it is kept for backward compatibility only.
+
+Please use the Serialize() method, this one is meant to be removed.
+
+=cut
+
+sub Serialyze {
+	return Serialize(@_);
 }
 
 sub _setData {
@@ -505,6 +517,8 @@ L<http://search.cpan.org/dist/Geo-Coder-GoogleMaps>
 =back
 
 =head1 ACKNOWLEDGEMENTS
+
+Slaven Rezic (L<SREZIC>) for all the patches and his useful reports on RT.
 
 =head1 COPYRIGHT & LICENSE
 
